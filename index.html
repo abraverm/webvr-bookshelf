@@ -21,23 +21,42 @@
   <canvas id="canvas"></canvas>
   <script>
     window.addEventListener('DOMContentLoaded', function() {
+      var books = [];
       var scene;
+      var camera;
+      var ray;
+      var wscs = [];
+      var target2;
+      var animationReady = true;
+      var particleSystem;
+      var haloCenter = new BABYLON.Vector3(0, 0, 0);
+      var objectSelected = false;
+      var objectSelecting = false;
+      var currentMeshSelected = null;
+      var teleportationAllowed;
       var canvas = document.getElementById('canvas');
       var engine = new BABYLON.Engine(canvas, true);
 
       var createScene = function() {
-
         scene = new BABYLON.Scene(engine);
-
         createCamera();
 
-        var light = new BABYLON.DirectionalLight("dir01", new BABYLON.Vector3(0, -0.5, -1.0), scene);
+        var light = new BABYLON.DirectionalLight("dir01", new BABYLON.Vector3(-0.5, -1, -1.0), scene);
         light.position = new BABYLON.Vector3(50, 250, 200);
         light.shadowOrthoScale = 2.0;
-
         CreateGround();
         createBookshelf();
+        for (var i = 0; i < books.length; i++) {
+          createAnimation(scene, books[i]);
+        }
+        var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
 
+        var ellipse1 = new BABYLON.GUI.Ellipse();
+        ellipse1.width = "6px"
+        ellipse1.height = "5px";
+        ellipse1.thickness = 1;
+        ellipse1.background = "Red";
+        advancedTexture.addControl(ellipse1);
         /*
         BABYLON.SceneLoader.ImportMesh("Layer_0.001", "../models/book", "blank-book.babylon", scene, function(newMeshes) {
           console.log("here");
@@ -50,18 +69,17 @@
           console.log('man');
         })
 */
+
         return scene;
       }
+
+
       var createBookshelf = function() {
-        var book1 = loadbook(scene, -45);
-        var book2 = loadbook(scene, -40);
-        var book3 = loadbook(scene, -35);
-        var book4 = loadbook(scene, -30);
-        var book5 = loadbook(scene, -25);
-        var book6 = loadbook(scene, -20);
-        var book7 = loadbook(scene, -15);
 
         var bookshelf = loadshelf(scene);
+        for (var i = 0; i < 7; i++) {
+          books[i] = createbook(scene, 5);
+        }
       }
       // Ground
       var CreateGround = function() {
@@ -73,19 +91,81 @@
         ground.receiveShadows = true;
       }
       var createCamera = function() {
+        var j = [0, 21, 0]
+
         if (navigator.getVRDisplays) {
           camera = new BABYLON.WebVRFreeCamera("WebVRCamera", new BABYLON.Vector3(140, 50, -20), scene);
         } else {
           camera = new BABYLON.VRDeviceOrientationFreeCamera("WebVRCamera", new BABYLON.Vector3(170, 50, -20), scene);
         }
-        camera.setTarget( new BABYLON.Vector3(0,21,0))
-        // Touch or click the rendering canvas to enter VR Mode
-        scene.onPointerDown = function() {
-          scene.onPointerDown = undefined
-          camera.attachControl(canvas, true);
-        };
-      };
-      var scene = createScene();
+        camera.setTarget(new BABYLON.Vector3(j[0], j[1], j[2]))
+
+        camera.attachControl(canvas, true);
+
+        scene.registerBeforeRender(function() {
+          castRayAndSelectObject();
+        });
+
+      }
+
+      var mouseOnly = false;
+
+      var castRayAndSelectObject = function() {
+        var ray;
+        if (mouseOnly || !camera.leftController) {
+          ray = camera.getForwardRay();
+        } else {
+          ray = camera.leftController.getForwardRay();
+        }
+
+
+        var hit = scene.pickWithRay(ray, function(mesh) {
+          return mesh
+        });
+
+        if (hit.pickedMesh) {
+            if (hit.pickedMesh === undefined || hit.pickedMesh.hasAnimation) {
+              return;
+
+          }
+          currentMeshSelected = hit.pickedMesh;
+          //currentMeshSelected.material.diffuseColor = BABYLON.Color3.Red();
+          bookMovement(currentMeshSelected);
+
+        }
+      }
+      var bookMovement = function(mesh){
+        scene.onPointerDown = function (evt, pickResult) {
+        // if the click hits the ground object, we change the impact position
+        if(animationReady){
+          scene.beginAnimation(mesh, 0, 20, true);
+
+        }
+
+    };
+      }
+      var createAnimation = function(scene, mesh) {
+        var animationBox = new BABYLON.Animation("ForwardAnimation", "position.x", 30, BABYLON.Animation.ANIMATIONTYPE_FLOAT,
+          BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+        // Animation keys
+        var keys = [];
+        keys.push({
+          frame: 0,
+          value: 0
+        });
+
+        keys.push({
+          frame: 20,
+          value: 10
+        });
+
+        animationBox.setKeys(keys);
+        //mesh.position.x = 5;
+        mesh.animations.push(animationBox);
+
+
+      }
+      scene = createScene();
       engine.runRenderLoop(function() {
         scene.render();
       });
