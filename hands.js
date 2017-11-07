@@ -41,19 +41,17 @@ var updateLine = function(scene, line, pointStart, pointEnd){
   return newline;
 }
 
-var drawHand = function(scene, hands) {
+var drawHand = function(scene, pointables) {
   var hand = {};
-  for (var i = 0; i < hands["pointables"].length; i++) {
+  for (var i = 0; i < pointables.length; i++) {
     hand[i] = {};
-    var point = hands["pointables"][i]
+    var point = pointables[i]
     var tip = vectorFromJson(point["tipPosition"])
-    var btip = vectorFromJson(point["btipPosition"])
     var carp = vectorFromJson(point["carpPosition"])
     var dip = vectorFromJson(point["dipPosition"])
     var mcp = vectorFromJson(point["mcpPosition"])
     var pip = vectorFromJson(point["pipPosition"])
-    hand[i]["a"] = drawLine(tip, btip, scene);
-    hand[i]["b"] = drawLine(btip, dip, scene);
+    hand[i]["a"] = drawLine(tip, dip, scene);
     hand[i]["c"] = drawLine(dip, pip, scene);
     hand[i]["d"] = drawLine(pip, mcp, scene);
     hand[i]["e"] = drawLine(mcp, carp, scene);
@@ -76,6 +74,6 @@ var drawLine = function(pointStart, pointEnd, scene) {
   return line;
 }
 var vectorFromJson = function(a) {
-  var Vector = new BABYLON.Vector3(a[0], a[1], a[2]);
-  return Vector;
+  var vector = new BABYLON.Vector3(a[0],a[1],a[2]);
+  return vector;
 }
