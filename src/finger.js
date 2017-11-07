@@ -1,29 +1,29 @@
-function finger(tip, dip, mcp, pip, carp) {
-  this.myPoints = [tip, dip, mcp, pip, carp];
-  this.firstDraw = true;
-  this.line;
-  this.vectorFromJson = function vectorFromJson(a) {
+import * as BABYLON from 'babylonjs';
+
+export default class Finger {
+  constructor(tip, dip, mcp, pip, carp) {
+    this.myPoints = [tip, dip, mcp, pip, carp];
+    this.firstDraw = true;
+    this.line;
+  }
+
+  vectorFromJson(a) {
     var Vector = new BABYLON.Vector3(a[0], a[1], a[2]);
     return Vector;
   }
-  this.updateFinger = function updateFinger(tip, dip, mcp, pip, carp) {
+  updateFinger(tip, dip, mcp, pip, carp) {
     this.myPoints = [tip, dip, mcp, pip, carp];
   }
-  this.toVectors = function toVectors() {
+
+  toVectors() {
     for (var i = 0; i < this.myPoints.length; i++) {
       this.myPoints[i] = this.vectorFromJson(this.myPoints[i]);
 
     }
   }
-  this.drawLine = function drawLine(scene) {
+
+  drawLine(scene) {
     this.toVectors();
-    /*
-    tip = tip.subtract(carp);
-    dip = dip.subtract(carp);
-    mcp = mcp.subtract(carp);
-    pip = pip.subtract(carp);
-    carp = carp.subtract(carp);
-    */
     //Array of points to construct lines
     //Create lines with updatable parameter set to true for later changes
     if (this.firstDraw) {
@@ -39,6 +39,5 @@ function finger(tip, dip, mcp, pip, carp) {
         instance: this.line
       }, scene);
     }
-
   }
 }
