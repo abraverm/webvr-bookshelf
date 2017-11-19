@@ -8,7 +8,7 @@ export default class Finger {
   }
 
   vectorFromJson(a) {
-    var Vector = new BABYLON.Vector3(a[0], a[1], a[2]);
+    var Vector = new BABYLON.Vector3(-a[0], a[1]-100, a[2]);
     return Vector;
   }
   updateFinger(tip, dip, mcp, pip, carp) {
@@ -22,6 +22,14 @@ export default class Finger {
     }
   }
 
+  registerCollider(mesh) {
+    this.line.physicsImpostor.registerOnPhysicsCollide(mesh.physicsImpostor,
+      function(main, collided){
+      console.log("hello")
+        collided.object.material.diffuseColor = new BABYLON.Color3(Math.random(), Math.random(), Math.random());
+      });
+  }
+
   drawLine(scene) {
     this.toVectors();
     //Array of points to construct lines
@@ -29,10 +37,20 @@ export default class Finger {
     if (this.firstDraw) {
       var line = BABYLON.MeshBuilder.CreateLines("lines", {
         points: this.myPoints,
-        updatable: true
+        updatable: true,
+        checkCollisions: true
       }, scene);
       this.line = line;
       this.firstDraw = false;
+      this.line.physicsImpostor = new BABYLON.PhysicsImpostor(
+        line,
+        BABYLON.PhysicsImpostor.ParticleImpostor, {
+          mass: 0,
+          restitution: 0.9,
+          friction: 1
+        },
+        scene
+      );
     } else {
       var newline = BABYLON.MeshBuilder.CreateLines("lines", {
         points: this.myPoints,
