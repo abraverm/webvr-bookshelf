@@ -1,9 +1,10 @@
 import styles from './index.css';
 import * as BABYLON from 'babylonjs';
 import * as GUI from "babylonjs-gui";
-import {createbook, loadshelf, loadhand} from './meshloader.js'
-import Hand from './hand.js'
-import * as Leap from 'leapjs'
+import {createbook, loadshelf, loadhand} from './meshloader.js';
+import Hand from './hand.js';
+import * as Fuck from 'leapjs-playack/build/leap.playback-0.2.1.js';
+import * as Leap from 'leapjs';
 
 window.addEventListener('DOMContentLoaded', function() {
   var books = [];
@@ -168,7 +169,9 @@ window.addEventListener('DOMContentLoaded', function() {
     mesh.animations.push(animationBox);
   }
 
-  controller.connect();
+  controller
+    .use('playback', {recording: '/assets/leap-record-1.json'})
+    .connect();
 
   scene = createScene();
   scene.registerBeforeRender(function() {

@@ -2021,6 +2021,10 @@ lcid@^1.0.0:
   dependencies:
     invert-kv "^1.0.0"
 
+"leapjs-playack@https://github.com/leapmotion/leapjs-playback":
+  version "0.2.1"
+  resolved "https://github.com/leapmotion/leapjs-playback#4ff4b5b3730fcf3c99e14129b76d65cac8ce2651"
+
 leapjs@^0.6.4:
   version "0.6.4"
   resolved "https://registry.yarnpkg.com/leapjs/-/leapjs-0.6.4.tgz#90588b0f29c1d39244b97a14d76daa4027c78ada"
