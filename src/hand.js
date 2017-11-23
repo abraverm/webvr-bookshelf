@@ -44,7 +44,6 @@ export default class Hand {
       metacarpal['length'] = data['bones'][0]['length']
       proximal['length'] = data['bones'][1]['length'];
       proximal['scaleLength'] = proximal['length']/this.bones[finger]['proximal'].length;
-      console.log(proximal['scaleLength'])
       middle['length'] = data['bones'][2]['length'];
       distal['length'] = data['bones'][3]['length'];
       var direction = this.toVector(data['direction']);

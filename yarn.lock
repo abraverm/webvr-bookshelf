@@ -2,6 +2,10 @@
 # yarn lockfile v1
 
 
+FileSaver@^0.10.0:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/FileSaver/-/FileSaver-0.10.0.tgz#7def3889944458042ef5df2e9064c88e3d2281c7"
+
 abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
@@ -2021,9 +2025,13 @@ lcid@^1.0.0:
   dependencies:
     invert-kv "^1.0.0"
 
-"leapjs-playack@https://github.com/leapmotion/leapjs-playback":
+"leapjs-playback@https://github.com/abraverm/leapjs-playback.git":
   version "0.2.1"
-  resolved "https://github.com/leapmotion/leapjs-playback#4ff4b5b3730fcf3c99e14129b76d65cac8ce2651"
+  resolved "https://github.com/abraverm/leapjs-playback.git#4816b5117698a8adc8d5f694e0afc9ab5f11b46b"
+  dependencies:
+    FileSaver "^0.10.0"
+    leapjs "^0.6.4"
+    lz-string "^1.4.4"
 
 leapjs@^0.6.4:
   version "0.6.4"
@@ -2121,6 +2129,10 @@ lru-cache@^4.0.1:
   dependencies:
     pseudomap "^1.0.2"
     yallist "^2.1.2"
+
+lz-string@^1.4.4:
+  version "1.4.4"
+  resolved "https://registry.yarnpkg.com/lz-string/-/lz-string-1.4.4.tgz#c0d8eaf36059f705796e1e344811cf4c498d3a26"
 
 macaddress@^0.2.8:
   version "0.2.8"

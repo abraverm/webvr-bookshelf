@@ -3,8 +3,8 @@ import * as BABYLON from 'babylonjs';
 import * as GUI from "babylonjs-gui";
 import {createbook, loadshelf, loadhand} from './meshloader.js';
 import Hand from './hand.js';
-import * as Fuck from 'leapjs-playack/build/leap.playback-0.2.1.js';
 import * as Leap from 'leapjs';
+import * as Play from 'leapjs-playback';
 
 window.addEventListener('DOMContentLoaded', function() {
   var books = [];
@@ -18,15 +18,15 @@ window.addEventListener('DOMContentLoaded', function() {
   var engine = new BABYLON.Engine(canvas, true);
   var hands = {};
   var assetsManager;
-  var controller = new Leap.Controller({})
+  Leap.Controller.plugin('playback', Play.playback);
 
+  var controller = new Leap.Controller({})
   var setLight = function() {
     var light = new BABYLON.DirectionalLight("dir01",
       new BABYLON.Vector3(-0, -1, -1.0), scene);
     light.position = new BABYLON.Vector3(50, 250, 200);
     light.shadowOrthoScale = 2.0;
   }
-
   var createGUI = function(){
     var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
     var ellipse = new BABYLON.GUI.Ellipse();
