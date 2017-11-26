@@ -179,7 +179,7 @@ window.addEventListener('DOMContentLoaded', function() {
   scene.registerBeforeRender(function() {
     var frame = controller.frame();
     for (var i = 0, len = frame.hands.length; i < len; i++) {
-      if (frame.hands[i].type == 'right'){
+      if (frame.hands[i].type == 'right' && hands['right']){
         hands['right'].updateHand(scene, frame.hands[i]);
       }
     }
