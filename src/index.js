@@ -172,7 +172,7 @@ window.addEventListener('DOMContentLoaded', function() {
   }
 
   controller
-    //.use('playback', {recording: '/assets/leap-record-1.json'})
+    .use('playback', {recording: '/assets/leap-record-1.json'})
     .connect();
 
   scene = createScene();

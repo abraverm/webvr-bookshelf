@@ -45,13 +45,11 @@ export default class Hand {
     this.rotation_x = data.pitch();
     this.mesh.rotation.x = this.rotation_x
     this.mesh.rotation.z = this.rotation_z
-    /*
     this.fingers['thumb'].update(data.thumb);
     this.fingers['index'].update(data.indexFinger);
     this.fingers['middle'].update(data.middleFinger);
     this.fingers['ring'].update(data.ringFinger);
     this.fingers['pinky'].update(data.pinky);
-    */
     this.palm.setPosition(this.toVector(data['palmPosition']));
     // this.arm.setPosition(this.toVector(data['arm']['nextJoint']));
     // console.log(data)
