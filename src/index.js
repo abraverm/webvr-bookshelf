@@ -52,12 +52,6 @@ window.addEventListener('DOMContentLoaded', function() {
   }
   var createScene = function() {
     scene = new BABYLON.Scene(engine);
-    handbox = BABYLON.MeshBuilder.CreateBox("handbox", {
-      height: 100,
-      width: 20,
-      depth: 40
-    }, scene);
-    handbox.scaling = new BABYLON.Vector3(1,1,1)
     scene.enablePhysics();
     scene.collisionsEnabled = true;
     createCamera();
@@ -186,11 +180,7 @@ window.addEventListener('DOMContentLoaded', function() {
     var frame = controller.frame();
     for (var i = 0, len = frame.hands.length; i < len; i++) {
       if (frame.hands[i].type == 'right'){
-        //console.log(frame.hands[i]);
-        handbox.position = new BABYLON.Vector3.FromArray(frame.hands[i].palmPosition).multiply(n);
-        handbox.rotation.z = frame.hands[i].roll()*(-1)
-        handbox.rotation.x = frame.hands[i].pitch()*(-1)
-        //hands['right'].updateHand(scene, frame.hands[i]);
+        hands['right'].updateHand(scene, frame.hands[i]);
       }
     }
   })
